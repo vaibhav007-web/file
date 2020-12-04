@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".LoginActivity">
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/prompt_email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/padding"/>
+        
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/prompt_password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/padding"/>
+    
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_margin="@dimen/btn_margin"
+            android:background="@drawable/button_gradient"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size"/>
+        
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:gravity="center"
+            android:text="@string/create_new"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size"/>
+        
+    </LinearLayout>
+</ScrollView>
+package com.elevenzon.Login;
+
+import android.content.Intent;
+import android.util.Patterns;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.EditText;
+
+public class LoginActivity extends AppCompatActivity {
+
+    EditText email, password;
+    Button login;
+    TextView register;
+    boolean isEmailValid, isPasswordValid;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        login = (Button) findViewById(R.id.login);
+        register = (TextView) findViewById(R.id.register);
+        		
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetValidation();
+            }
+        });
+		
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // redirect to RegisterActivity
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+	
+    public void SetValidation() {
+    	// Check for a valid email address.
+        if (email.getText().toString().isEmpty()) {
+            email.setError(getResources().getString(R.string.email_error));
+            isEmailValid = false;
+     	} else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            email.setError(getResources().getString(R.string.error_invalid_email));
+            isEmailValid = false;
+        } else  {
+            isEmailValid = true;
+        }
+	
+        // Check for a valid password.
+        if (password.getText().toString().isEmpty()) {
+            password.setError(getResources().getString(R.string.password_error));
+            isPasswordValid = false;
+     	} else if (password.getText().length() < 6) {
+            password.setError(getResources().getString(R.string.error_invalid_password));
+            isPasswordValid = false;
+        } else  {
+            isPasswordValid = true;
+        }
+		
+        if (isEmailValid && isPasswordValid) {
+            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+        }
+	 
+    }
+
+}
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".RegisterActivity">
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/name"
+            android:inputType="textNoSuggestions"
+            android:paddingStart="@dimen/padding"/>
+        
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/prompt_email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/padding"/>
+        
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/phone_number"
+            android:inputType="number"
+            android:paddingStart="@dimen/padding"/>
+    
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/prompt_password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/padding"/>
+    
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height"
+            android:layout_margin="@dimen/btn_margin"
+            android:background="@drawable/button_gradient"
+            android:text="@string/register"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size"/>
+        
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:gravity="center"
+            android:text="@string/not_register"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size"/>
+        
+    </LinearLayout>
+</ScrollView>
+package com.elevenzon.Login;
+
+import android.content.Intent;
+import android.util.Patterns;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.EditText;
+
+public class RegisterActivity extends  AppCompatActivity {
+
+    EditText name, email, phone, password;
+    Button register;
+    TextView login;
+    boolean isNameValid, isEmailValid, isPhoneValid, isPasswordValid;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        
+        name = (EditText) findViewById(R.id.name);
+        email = (EditText) findViewById(R.id.email);
+        phone = (EditText) findViewById(R.id.phone);
+        password = (EditText) findViewById(R.id.password);
+        register = (Button) findViewById(R.id.register);
+        login = (TextView) findViewById(R.id.login);
+        		
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetValidation();
+            }
+        });
+		
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // redirect to LoginActivity
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+	
+    public void SetValidation() {
+    	// Check for a valid name.
+        if (name.getText().toString().isEmpty()) {
+            name.setError(getResources().getString(R.string.name_error));
+            isNameValid = false;
+        } else  {
+            isNameValid = true;
+        }
+	    
+        // Check for a valid email address.
+        if (email.getText().toString().isEmpty()) {
+            email.setError(getResources().getString(R.string.email_error));
+            isEmailValid = false;
+     	} else if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            email.setError(getResources().getString(R.string.error_invalid_email));
+            isEmailValid = false;
+        } else  {
+            isEmailValid = true;
+        }
+	    
+        // Check for a valid phone number.
+        if (phone.getText().toString().isEmpty()) {
+            phone.setError(getResources().getString(R.string.phone_error));
+            isPhoneValid = false;
+        } else  {
+            isPhoneValid = true;
+        }
+	
+        // Check for a valid password.
+        if (password.getText().toString().isEmpty()) {
+            password.setError(getResources().getString(R.string.password_error));
+            isPasswordValid = false;
+     	} else if (password.getText().length() < 6) {
+            password.setError(getResources().getString(R.string.error_invalid_password));
+            isPasswordValid = false;
+        } else  {
+            isPasswordValid = true;
+        }
+		
+        if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
+            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+        }
+	 
+    }
+
+}
+<?xml version="1.0" encoding="utf-8"?>
+<shape 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="225"
+        android:endColor="@android:color/holo_orange_dark"
+        android:startColor="@android:color/holo_orange_light"/>
+</shape>
+<?xml version="1.0" encoding="utf-8"?>
+<shape 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <stroke
+        android:color="@android:color/holo_orange_dark"
+        android:width="1dp"/>
+</shape>
+<?xml version="1.0" encoding="utf-8"?>
+<shape 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="225"
+        android:endColor="@android:color/darker_gray"
+        android:startColor="#044fab"/>
+</shape>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2a7ee6</color>
+    <color name="colorPrimaryDark">#76a5df</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="zircon">#e0e6e4</color>
+</resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="edit_text_height">50dp</dimen>
+    <dimen name="btn_height">50dp</dimen>
+    <dimen name="top_margin">10dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="btn_margin">20dp</dimen>
+    <dimen name="padding">5dp</dimen>
+    <dimen name="margin_top">10dp</dimen>
+</resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="login">Log In</string>
+    <string name="create_new">Click here for register</string>
+    <string name="not_register">Not Register?</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+    <string name="name_error">Please enter your name</string>
+    <string name="phone_error">Please enter a phone number</string>
+    <string name="email_error">Please enter a email address</string>
+    <string name="error_invalid_email">Email is not valid</string>
+    <string name="password_error">Please enter a password</string>
+    <string name="error_invalid_password">Please enter a minimum password of 6 characters</string>
+</resources>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+	
+    <style name="AppTheme.NoActionBar" >
+    <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorHint">@color/zircon</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+</resources>
+<?xml version="1.0" encoding="utf-8"?>
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.elevenzon.Login">
+        
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+    
+        <activity 
+            android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegisterActivity"/>
+
+    </application>
+</manifest>
